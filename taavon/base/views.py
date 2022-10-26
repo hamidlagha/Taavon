@@ -72,12 +72,15 @@ def voteMember(request):
     
     if not selectionValidate(selectionList, member.zone):
         return Response({'success': False, 'msg': 'کاندیدا وجود ندارد'}, status=status.HTTP_400_BAD_REQUEST)
-    
+        
     try:
         for selection in selectionList:
-                Votes.objects.create(member=member, candida=Candidas.objects.get(id=selection), ip=ip, zone= member.zone)
+                candida=Candidas.objects.get(id=selection)
+                Votes.objects.create(member=member, candida=candida, ip=ip, zone= member.zone)
+                candida.getVoteCount
         member.voted = True
         member.save()
+        
     except:
         items = Votes.objects.filter(member=member)
         items.delete()
