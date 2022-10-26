@@ -14,6 +14,24 @@ class CandidaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class VoteSerializer(serializers.ModelSerializer):
+    prs = serializers.ReadOnlyField()
+
     class Meta:
         model = Votes
-        fields = '__all__'
+        fields = ['prs', 'zone', 'created', 'ip']
+    
+class CandidaVotesSerializer(serializers.ModelSerializer):
+    votes = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Candidas
+        fields = ['id', 'name', 'family', 'code', 'prs',
+            'zone', 'votes']    
+
+    def get_votes(self, obj):
+        try:
+            items = VoteSerializer(
+                obj.votes_set.all(), many=True).data
+        except:
+            items = False
+        return items    
