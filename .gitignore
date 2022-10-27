@@ -5,3 +5,4 @@ logs/
 .env
 *.backup
 db/
+frontend/node_modules/
