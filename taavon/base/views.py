@@ -12,6 +12,7 @@ zones = [1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1
 @api_view(['POST'])
 def loginMember(request):
     data = request.data
+    print(data)
     
     if not 'code' in data or not 'prs' in data:
         return Response({'success': False , 'msg': 'شماره ملی یا شماره پرسنلی ایراد دارد'})
