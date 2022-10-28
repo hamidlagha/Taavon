@@ -13,7 +13,7 @@ zones = [1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1
 @api_view(['POST'])
 def loginMember(request):
     data = request.data
-   
+
     if not 'code' in data or not 'prs' in data or not 'mobile' in data:
         return Response({'success': False , 'msg': 'شماره ملی یا شماره پرسنلی ایراد دارد'})
     
@@ -26,12 +26,12 @@ def loginMember(request):
     validateCodeResult = validateCode(code)
     if not validateCodeResult['success']:
         return Response(validateCodeResult, status=status.HTTP_400_BAD_REQUEST)
- 
+
     mobile = data['mobile']
     validateMobileResult = validateMobile(mobile)
     if not validateMobileResult['success']:
         return Response(validateMobileResult, status=status.HTTP_400_BAD_REQUEST)
-           
+
     try:
         member= Members.objects.get(prs=prs, code=code)
     except:
@@ -45,14 +45,10 @@ def loginMember(request):
         
     smsSent = sendSMS(mobile)
     if smsSent:
-        return Response({'success': True, 'msg': 'ارسال پیامک انجام شد'}, status=status.HTTP_200_OK)
+        return Response({'success': True, 'msg': 'ارسال پیامک انجام شد', 'id': member.id, 'mobile': member.mobile, 'name': member.name, 'family': member.family}, status=status.HTTP_200_OK)
     else:
         return Response({'success': False, 'msg': 'ارسال پیامک با خطا مواجه شد'}, status=status.HTTP_200_OK)
 
-    # serializerMember= MemberSerializer(member, many=False)
-    # serializerCandid= MemberSerializer(Candidas.objects.filter(zone=member.zone), many=True)
-    
-    # return Response({'success': True, 'member': serializerMember.data, 'candidas': serializerCandid.data })
 
 @api_view(['POST'])
 def voteMember(request):
@@ -164,17 +160,21 @@ def sendSMS(mobile):
 @api_view(['POST'])
 def confirmSMS(request):
     data = request.data
-    if  'mobile' not in data or 'password' not in data:
+    print(data)
+    if  'mobile' not in data or 'password' not in data or 'id' not in data:
         return Response({'success': False, 'msg': 'فرمت داده ها ایراد دارد'}, status=status.HTTP_404_NOT_FOUND)
     
     mobile = data['mobile']
     password = data['password']
-    print(mobile)
-    print(password)
+    id = data['id']
+
     try:
         exists = SMS.objects.filter(password=password, mobile=mobile).count()
-        if exists:
-            return Response({'success': True, 'msg': 'ورود تایید شد'}, status=status.HTTP_200_OK)
+        member = Members.objects.get(id=id)
+        if exists and member:
+            # serializerMember= MemberSerializer(member, many=False)
+            serializerCandid= CandidaSerializer(Candidas.objects.filter(zone=member.zone), many=True)
+            return Response({'success': True, 'candidas': serializerCandid.data, 'msg': 'ورود تایید شد' }, status=status.HTTP_200_OK)
         else:
             return Response({'success': False, 'msg': 'کد وارد شده اشتباه است'}, status=status.HTTP_404_NOT_FOUND)            
     except:

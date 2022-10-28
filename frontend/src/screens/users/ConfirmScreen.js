@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { Form } from 'react-bootstrap'
 import { confirmAction } from '../../actions/actions'
-import { CONFIRM_RESET } from '../../constants/Constants'
 import Loader from '../../components/Loader'
 
 function ConfirmScreen() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
-    const location = useLocation();
-    const { pathname } = location;
-    const mobile = pathname.split('/')[2]
-    console.log(mobile)
     const [password, setPassword] = useState('');
     const [hasError, setHasError] = useState(false)
+
+    const userLoginInfo = useSelector(state => state.userLogin)
+    const { success: successLogin, id, mobile, name, family } = userLoginInfo
 
     const userConfirmInfo = useSelector(state => state.userConfirm)
     const { loading, success, error } = userConfirmInfo
@@ -23,13 +21,18 @@ function ConfirmScreen() {
         e.preventDefault()
         dispatch(confirmAction({
             mobile,
-            password
+            password,
+            id
         }))
     }
 
     useEffect(() => {
+        if (!successLogin || !id || !mobile){
+            console.log('redirecting to /')
+            navigate('/')
+        }
+
         if (success) {
-            // dispatch({type: CONFIRM_RESET})
             navigate(`/candidas/`)
         }
     }, [success])
@@ -46,7 +49,13 @@ function ConfirmScreen() {
                             <div className="fadeIn first">
                                 <img src="/images/logo.png" id="icon" alt="User Icon" />
                             </div>
-
+                            <div className='m-3'>
+                                همکار محترم
+                                &nbsp;
+                                {name} {family}
+                                <br />
+                                لطفا کد دریافتی را وارد نمایید
+                            </div>
                             <Form>
                                 <Form.Control
                                     required

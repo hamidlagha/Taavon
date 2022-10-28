@@ -1,8 +1,11 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
+from django.conf import settings
 from base.views import loginMember, voteMember, reportVotesAllZones, reportVotesZone, reportVotesCandida,confirmSMS
 urlpatterns = [
     path('admin/', admin.site.urls),
+    re_path(r'^images/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),    
     path('api/v1/login/', loginMember, name='login-member'),
     path('api/v1/confirm/', confirmSMS, name='confirm-sms'),
     path('api/v1/vote/', voteMember, name='vote-member'),

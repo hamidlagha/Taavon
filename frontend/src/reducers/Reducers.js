@@ -21,7 +21,11 @@ export const userLoginReducer = (state = {}, action) => {
                 success: action.payload.success,
                 member: action.payload.member,
                 candidas: action.payload.candidas,
-                msg: action.payload.msg
+                msg: action.payload.msg,
+                id: action.payload.id,
+                mobile: action.payload.mobile,
+                name: action.payload.name,
+                family: action.payload.family
             }
         
         case LOGIN_FAIL:
@@ -44,7 +48,9 @@ export const confirmSmsReducer = (state = {}, action) => {
             return {
                 loading: false, 
                 success: action.payload.success,
-                msg: action.payload.msg
+                msg: action.payload.msg,
+                candidas: action.payload.candidas,
+                member: action.payload.member
             }
         
         case CONFIRM_FAIL:

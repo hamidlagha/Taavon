@@ -23,7 +23,7 @@ import {
         }
 
         const  { data } = await axios.post(
-            'http://127.0.0.1:8000/api/v1/login/', 
+            '/api/v1/login/', 
             member, 
             config
         )
@@ -58,7 +58,7 @@ import {
         }
 
         const  { data } = await axios.post(
-            'http://127.0.0.1:8000/api/v1/confirm/', 
+            '/api/v1/confirm/', 
             confirm, 
             config
         )

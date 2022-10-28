@@ -10,7 +10,7 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userLoginInfo = useSelector(state => state.userLogin)
-  const { loading, success, error, member, candidas } = userLoginInfo
+  const { loading, success, error, id } = userLoginInfo
 
   const [prs, setPrs] = useState('');
   const [code, setCode] = useState('');
@@ -21,14 +21,15 @@ function LoginScreen() {
     dispatch(loginAction({
       prs,
       code,
-      mobile
+      mobile,
+      id
     }))
   }
 
   useEffect(() => {
     if (success){
       // dispatch({type: LOGIN_RESET})
-      navigate(`/confirm/${mobile}/`)
+      navigate(`/confirm/`)
     }
   }, [success])
   return (
