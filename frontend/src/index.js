@@ -23,9 +23,9 @@ const root = createRoot(rootElement);
 
 root.render(
   <Provider store={store}>
-    <AlertProvider template={AlertTemplate} {...options}>
+    {/* <AlertProvider template={AlertTemplate} {...options}> */}
       <App />
-    </AlertProvider>
+    {/* </AlertProvider> */}
   </Provider>,
 );
 
