@@ -20,6 +20,17 @@ h5 {
     direction: rtl;
 }
 
+.card-green {
+    font-size: 1em;
+    overflow: hidden;
+    padding: 0;
+    border: green 2px solid;
+    background-color: aquamarine;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+    direction: rtl;
+}
+
 .card-block {
     font-size: 1em;
     position: relative;

@@ -42,7 +42,7 @@ function LoginScreen() {
             <div id="formContent">
 
               <div className="fadeIn first">
-                <img src="/images/logo.png" id="icon" alt="User Icon" />
+                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25' />
               </div>
 
               <Form>
@@ -52,7 +52,7 @@ function LoginScreen() {
                   id="login"
                   className="fadeIn second"
                   name="login"
-                  placeholder="شماره رسنلی"
+                  placeholder="شماره پرسنلی"
                   value={prs || ''}
                   onChange={(e) => setPrs(e.target.value)}
                 />

@@ -38,13 +38,12 @@ function CandidaScreen() {
     }, [searchWord])
 
     return (
-
-        <React.Fragment>
+        <div className='container'>
             <Row className='header-fix sticky-top'>
                 <SearchBox searchChange={onSearchChange} />
             </Row>
             <CandidaList candidas={filteredcandidas} />
-        </React.Fragment>
+        </div>
     )
 }
 

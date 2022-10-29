@@ -47,7 +47,7 @@ function ConfirmScreen() {
                         <div id="formContent">
 
                             <div className="fadeIn first">
-                                <img src="/images/logo.png" id="icon" alt="User Icon" />
+                                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25'/>
                             </div>
                             <div className='m-3'>
                                 همکار محترم

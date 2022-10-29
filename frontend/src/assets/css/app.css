@@ -4,6 +4,7 @@
   body {
     font-family: "tahoma";
     /* height: 100vh; */
+    direction: rtl;
   }
   
   a {
@@ -115,8 +116,8 @@
     transform: scale(0.95);
   }
   
-  input[type=text] {
-    background-color: #f6f6f6;
+  input[type=text], input[type=search] {
+    background-color: #d5e6e7;
     border: none;
     color: #0d0d0d;
     padding: 15px 32px;
@@ -136,12 +137,12 @@
     border-radius: 5px 5px 5px 5px;
   }
   
-  input[type=text]:focus {
-    background-color: #fff;
+  input[type=search]:focus, input[type=text]:focus {
+    background-color: rgb(184, 213, 230);
     border-bottom: 2px solid #5fbae9;
   }
   
-  input[type=text]:placeholder {
+  input[type=text]:placeholder, input[type=search]:placeholder {
     color: #cccccc;
   }
   
@@ -286,3 +287,37 @@
     height: 200px;
     width: 200px;
   }
+
+
+  
+.tag {
+  display: inline-flex;
+  align-items: center;
+  background-color: chartreuse;
+  /* color: var(--color-4); */
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.tag:not(:last-child) {
+  margin-right: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.tag--pill {
+  border-radius: 0.6rem;
+}
+
+.tag--main,
+.tag--main > small {
+  background: var(--color-main-light);
+  color: var(--color-main);
+  font-weight: 500;
+}
