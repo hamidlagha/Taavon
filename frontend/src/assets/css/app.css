@@ -120,7 +120,7 @@
     background-color: #d5e6e7;
     border: none;
     color: #0d0d0d;
-    padding: 15px 32px;
+    padding: 5px 12px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -320,4 +320,9 @@
   background: var(--color-main-light);
   color: var(--color-main);
   font-weight: 500;
+}
+
+.header-fix {
+  background-color: #ffffff;
+  margin-bottom: 10px;
 }

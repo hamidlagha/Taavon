@@ -89,7 +89,6 @@ function LoginScreen() {
                   : null
                 }
               </div>
-
             </div>
           )}
     </div>

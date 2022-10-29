@@ -41,37 +41,34 @@ def loginMember(request):
         
 
     if member.voted:
-        return Response({'success': False, 'msg': 'کاربر قبلا رای داده است'}, status=status.HTTP_200_OK)
+        return Response({'success': False, 'msg': 'کاربر قبلا رای داده است'}, status=status.HTTP_400_BAD_REQUEST)
         
     smsSent = sendSMS(mobile)
     if smsSent:
         return Response({'success': True, 'msg': 'ارسال پیامک انجام شد', 'id': member.id, 'mobile': member.mobile, 'name': member.name, 'family': member.family}, status=status.HTTP_200_OK)
     else:
-        return Response({'success': False, 'msg': 'ارسال پیامک با خطا مواجه شد'}, status=status.HTTP_200_OK)
+        return Response({'success': False, 'msg': 'ارسال پیامک با خطا مواجه شد'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 def voteMember(request):
     data = request.data
-    if not 'id' in data:
+
+    if not 'id' in data or not 'selection[]' in data:
         return Response({'success': False, 'msg': 'ایراد در ساختار داده ها'})
-    
+
     id = data['id']
     ip = get_client_ip(request)
         
     try:
-        member = Members.objects.get(prs=id)
+        member = Members.objects.get(id=id)
     except:
         return Response({'success': False, 'msg': 'کاربر وجود ندارد'}, status=status.HTTP_400_BAD_REQUEST)
 
     if member.voted:
         return Response({'success': False, 'msg': 'کاربر قبلا رای داده است'}, status=status.HTTP_200_OK)
-    
-    selectionList = []
-    if 'selection1' in data: selectionList.append(data['selection1'])
-    if 'selection2' in data: selectionList.append(data['selection2'])
-    if 'selection3' in data: selectionList.append(data['selection3'])
-    if 'selection4' in data: selectionList.append(data['selection4'])
+
+    selectionList = request.POST.getlist('selection[]')
     
     selectionCount = len(selectionList)
     if selectionCount == 0 or selectionCount > 4:
@@ -79,12 +76,12 @@ def voteMember(request):
     
     if not selectionValidate(selectionList, member.zone):
         return Response({'success': False, 'msg': 'کاندیدا وجود ندارد'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
     try:
         for selection in selectionList:
                 candida=Candidas.objects.get(id=selection)
                 Votes.objects.create(member=member, candida=candida, ip=ip, zone= member.zone)
-                candida.getVoteCount
+                # candida.getVoteCount
         member.voted = True
         member.save()
         

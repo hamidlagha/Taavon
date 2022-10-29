@@ -8,6 +8,15 @@ import {
     CONFIRM_FAIL,
     CONFIRM_RESET,
     LOGIN_RESET,
+
+    SELECTION_SET,
+    SELECTION_GET,
+
+    SUBMIT_REQUEST,
+    SUBMIT_SUCCESS,
+    SUBMIT_FAIL,
+    SUBMIT_RESET,
+
 } from '../constants/Constants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -57,6 +66,46 @@ export const confirmSmsReducer = (state = {}, action) => {
             return {loading: false, error: action.payload, success: false}
         
         case CONFIRM_RESET:
+            return {}
+        
+        default:
+            return state
+    }
+}
+
+export const selectionReducer = (state = {selection: []}, action) => {
+    switch (action.type) {
+        case SELECTION_GET:
+            return state
+        
+        case SELECTION_SET:
+            console.log('in reducer', action.payload)
+            return {
+                selection: [...action.payload]
+            }
+        
+        default:
+            return state
+    }
+}
+
+
+export const submitReducer = (state = {}, action) => {
+    switch (action.type) {
+        case SUBMIT_REQUEST:
+            return {loading: true}
+        
+        case SUBMIT_SUCCESS:
+            return {
+                loading: false, 
+                success: action.payload.success,
+                msg: action.payload.msg,
+            }
+        
+        case SUBMIT_FAIL:
+            return {loading: false, error: action.payload, success: false}
+        
+        case SUBMIT_RESET:
             return {}
         
         default:

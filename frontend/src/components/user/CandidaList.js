@@ -1,46 +1,35 @@
 import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectionSetAction } from '../../actions/actions'
 import Candida from './Candida'
 
 function CandidaList({ candidas }) {
-
-    const [selections, setSelections] = useState([])
+    const dispatch = useDispatch()
+    const selectionInfo = useSelector(state => state.selectionList)
+    const {selection} = selectionInfo
     const [update, setUpdate] = useState(false)
+
     const selector = (id) => {
-        if (selections.includes(id)) {
-            console.log('removing')
-            let array = selections
+        if (selection.includes(id)) {
+            let array = selection
             let index = array.indexOf(id)
             if (index > -1) {
                 array.splice(index, 1)
             }
-            setSelections(array)
+            dispatch(selectionSetAction(selection))
             setUpdate(!update)
-        } else if (selections.length >= 4) {
-            alert('full')
+        } else if (selection.length >= 4) {
+            alert('بیش از چهار انتخاب نمی توانید داشته باشید')
         } else {
-            let joined = selections.concat(id)
-            setSelections(joined)
+            let joined = selection.concat(id)
+            dispatch(selectionSetAction(joined))
         }
     }
 
     return (
         <React.Fragment>
-            <Row className='d-inline'>
-                {candidas && candidas.length && candidas.map(candida => {
-                    return (
-                        <span>
-                            {selections.includes(candida.id) ?
-                                <span className='tag tag--pill m-1' key={candida.id}>
-                                    <span className='text-color-2 mx-2 text-danger' onClick={() => {selector(candida.id)}}>
-                                        x
-                                    </span>                                    
-                                    {candida.name}
-                                </span>
-                                : null}
-                        </span>)
-                })}
-            </Row>
+
             <div className="container">
                 <Row>
                     {candidas && candidas.map((candida, i) => {
@@ -53,7 +42,7 @@ function CandidaList({ candidas }) {
                                 desc={candida.desc}
                                 image={candida.image}
                                 selector={selector}
-                                selections={selections}
+                                selections={selection}
                             />)
                     })}
                 </Row>
