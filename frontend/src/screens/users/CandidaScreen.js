@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Badge, Button } from 'react-bootstrap'
 import SearchBox from '../../components/SearchBox'
 import CandidaList from '../../components/user/CandidaList'
 import { selectionSetAction } from '../../actions/actions'
@@ -60,42 +60,53 @@ function CandidaScreen() {
 
     return (
         <div className='container'>
-            <Row className='header-fix sticky-top m-1'>
-                <Col sm={4} md={4} lg={4} xl={4} className='d-inline'>
+            <Row className='header-fix sticky-top'>
+                <Col sm={3} md={3} lg={3} xl={3} className='d-flex align-items-center myshadow'>
                     <SearchBox searchChange={onSearchChange} />
+                    <h4>
+                        <Badge bg='secondary m-3 myshadow'>
+                            <span className='m-1'>
+                            {candidas ? candidas.length : null} / {filteredcandidas ? filteredcandidas.length : null}
+                            </span>
+                        </Badge>
+                    </h4>
                 </Col>
-                <Col sm={2} md={2} lg={2} xl={2} className='d-inline'>
-                    <span className='m-1'>نمایش</span>
-                    <span className='m-1'>{filteredcandidas ? filteredcandidas.length : null}</span>
-                    <span className='m-1'>از</span>
-                    <span className='m-1'>{candidas ? candidas.length : null}</span>
-                    <span className='m-1'>کاندیدا</span>
+                <Col>
                 </Col>
-                <Col sm={6} md={6} lg={6} xl={6} className='d-inline '>
-                    {candidas && candidas.length && candidas.map(candida => {
-                        return (
-                            <span key={candida.id}>
-                                {selection.includes(candida.id) ?
-                                    <span className='tag tag--pill m-1' key={candida.id}>
-                                        <span className='text-color-2 mx-2 text-danger' onClick={() => { selector(candida.id) }}>
-                                            x
+                <Col sm={8} md={8} lg={8} xl={8} className='d-flex justify-content-sm-between align-items-center myshadow'>
+                    <span>
+                        {candidas && candidas.length && candidas.map(candida => {
+                            return (
+                                <span key={candida.id}>
+                                    {selection.includes(candida.id) ?
+                                        <span className='tag tag--pill m-1' key={candida.id}>
+                                            <span className='text-color-2 mx-1 text-danger' onClick={() => { selector(candida.id) }}>
+                                                <i className='fas fa-times'></i>
+                                            </span>
+                                            <span className='mx-1'>
+                                                {candida.name} {candida.family}
+                                            </span>
                                         </span>
-                                        {candida.name}
-                                    </span>
-                                    : null}
-                            </span>)
-                    })}
-                    {selection && selection.length ?
-                        <button
-                            className='btn btn-primary'
-                            disabled={!selection.length}
-                            hidden={!selection.length}
-                            onClick={() => navigate('/submit/')}
+                                        : null}
+                                </span>)
+                        })}
+                    </span>
+                    <span>
+                        {selection && selection.length ?
+                            <Button
+                                className='btn btn-success'
+                                disabled={!selection.length}
+                                onClick={() => navigate('/submit/')}
                             >
-                            ثبت رای
-                        </button>
-                    : null}
+                                <i className='fas fa-save m-2'></i>
+                                ثبت
+                            </Button>
+                            : null}
+                    </span>
                 </Col>
+            </Row>
+            <Row className='m-3'>
+
             </Row>
             <CandidaList candidas={filteredcandidas} />
         </div>

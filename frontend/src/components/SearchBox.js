@@ -1,9 +1,10 @@
 import React from 'react'
 
-function SearchBox({searchChange}) {
+function SearchBox({ searchChange }) {
     return (
         <div>
             <input
+                className='w-100 myshadow'
                 type="search"
                 placeholder='جستجو'
                 onChange={searchChange}

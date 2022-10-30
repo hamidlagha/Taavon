@@ -24,7 +24,7 @@ function SubmitScreen() {
         if (!selection || !id) {
             navigate('/')
         }
-        if(success){
+        if (success) {
             navigate('/finish/')
         }
     }, [success])
@@ -60,13 +60,17 @@ function SubmitScreen() {
                     <Button
                         className='btn btn-success'
                         onClick={submitHandler}
-                    > ثبت نهایی و خروج</Button>
+                    >
+                        <i className='fas fa-arrow-right m-2'></i>
+                        ثبت نهایی و خروج
+                    </Button>
 
                     <Button
                         className='btn btn-warning'
                         onClick={() => navigate('/candidas/')}
                     >
                         بازگشت و ویرایش آراء
+                        <i className='fas fa-arrow-left m-2'></i>
                     </Button>
                 </div>
             </div>

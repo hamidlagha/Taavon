@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Form } from 'react-bootstrap'
+import { Form, Row, Button } from 'react-bootstrap'
 import { confirmAction } from '../../actions/actions'
 import Loader from '../../components/Loader'
 
@@ -27,7 +27,7 @@ function ConfirmScreen() {
     }
 
     useEffect(() => {
-        if (!successLogin || !id || !mobile){
+        if (!successLogin || !id || !mobile) {
             console.log('redirecting to /')
             navigate('/')
         }
@@ -47,7 +47,7 @@ function ConfirmScreen() {
                         <div id="formContent">
 
                             <div className="fadeIn first">
-                                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25'/>
+                                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25' />
                             </div>
                             <div className='m-3'>
                                 همکار محترم
@@ -57,24 +57,26 @@ function ConfirmScreen() {
                                 لطفا کد دریافتی را وارد نمایید
                             </div>
                             <Form>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    id="password"
-                                    className="fadeIn second"
-                                    name="login"
-                                    placeholder="کد دریافت شده توسط پیامک"
-                                    value={password || ''}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                                <input
-                                    type="submit"
-                                    className="fadeIn second btn"
-                                    value="مرحله بعد"
+                                <Row className='d-flex justify-content-center m-3'>
+                                    <Form.Control
+                                        required
+                                        type="text"
+                                        id="password"
+                                        className="fadeIn first w-25 num-space"
+                                        name="login"
+                                        value={password || ''}
+                                        onChange={(e) => setPassword(e.target.value.replace(/\D/g, ''))}
+                                    />
+                                </Row>
+                                <Button
+                                    className='btn btn-primary btn-lg m-2'
                                     onClick={submitHandler}
-                                    disabled={password.length < 6}
-                                />
-                            </Form>
+                                    disabled={password.length !== 6}
+                                >
+                                    ادامه <i class="fa fa-arrow-left"></i>
+
+                                </Button>
+                              </Form>
 
                             <div id="formFooter">
                                 {hasError ?

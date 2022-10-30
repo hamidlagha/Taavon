@@ -9,7 +9,7 @@ function FinishScreen() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        
+
         dispatch({ type: LOGIN_RESET })
         dispatch({ type: CONFIRM_RESET })
         dispatch({ type: SUBMIT_RESET })
@@ -29,10 +29,12 @@ function FinishScreen() {
                 </div>
                 <div id="formFooter">
                     <div>اداره تعاون اداره کل آموزش و \رورش خراسان رضوی</div>
-                    <Button className='btn btn-secondary m-5'
-                    onClick={() => navigate('/')}
+                    <Button className='btn btn-primary m-5'
+                        onClick={() => navigate('/')}
                     >
-                        بازگشت به صفحه اول</Button>
+                        بازگشت به صفحه اول
+                        <i className='fas fa-arrow-left m-2'></i>
+                    </Button>
                 </div>
             </div>
         </div>)

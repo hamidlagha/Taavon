@@ -54,6 +54,9 @@ class Votes(models.Model):
     ip = models.CharField(max_length=100, blank=True, null=False)
     id = models.AutoField(primary_key=True, blank=False, null=False, editable=False, unique=True)
 
+    class Meta:
+        unique_together = ('candida', 'member',)
+
     def __str__(self):
         return str(self.id)
     

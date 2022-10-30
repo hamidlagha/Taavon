@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col } from 'react-bootstrap'
+import { Col, Button } from 'react-bootstrap'
 
 import '../../assets/css/card.css'
 function Candida({ id, name, family, desc, image, selector, selections }) {
@@ -9,23 +9,28 @@ function Candida({ id, name, family, desc, image, selector, selections }) {
             <div className={selected ? "card-green" : "card"} key={selections[0]}>
                 <img className="card-img-top" src={image} />
                 <div className="card-block">
-                    <h6 className="card-title mt-3">{name} {family}</h6>
+                    <h6 className="card-title mt-3 text-center">{name} {family}</h6>
                     <div className="card-text">
                         {desc}
                     </div>
                 </div>
-                <div className="card-footer">
-                    {/* <small>وضعیت شغلی</small> */}
+                <div className="d-flex justify-content-center">
                     {!selected ?
-                        <button
-                            className="btn btn-secondary float-right btn-sm"
+                        <Button
+                            className="btn btn-block btn-success"
                             onClick={() => selector(id)}
-                        >رای بدهید</button>
+                        >
+                            <i className='fas fa-thumbs-up m-2'></i>
+                            رای بدهید
+                            </Button>
                         :
-                        <button
-                            className="btn btn-danger float-right btn-sm"
+                        <Button
+                            className="btn btn-block btn-danger"
                             onClick={() => selector(id)}
-                        >پس گرفتن رای</button>  
+                        >
+                            <i className='fas fa-thumbs-down m-2'></i>
+                            برگشت رای
+                            </Button> 
                                         }
                 </div> 
             </div>
