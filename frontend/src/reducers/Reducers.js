@@ -11,6 +11,7 @@ import {
 
     SELECTION_SET,
     SELECTION_GET,
+    SELECTION_RESET,
 
     SUBMIT_REQUEST,
     SUBMIT_SUCCESS,
@@ -79,11 +80,11 @@ export const selectionReducer = (state = {selection: []}, action) => {
             return state
         
         case SELECTION_SET:
-            console.log('in reducer', action.payload)
             return {
                 selection: [...action.payload]
             }
-        
+        case SELECTION_RESET:
+            return {selection: []}
         default:
             return state
     }

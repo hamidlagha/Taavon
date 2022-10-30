@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { LOGIN_RESET, CONFIRM_RESET, SUBMIT_RESET } from '../../constants/Constants'
+import { LOGIN_RESET, CONFIRM_RESET, SUBMIT_RESET, SELECTION_RESET } from '../../constants/Constants'
 
 function FinishScreen() {
     const dispatch = useDispatch();
@@ -13,6 +13,8 @@ function FinishScreen() {
         dispatch({ type: LOGIN_RESET })
         dispatch({ type: CONFIRM_RESET })
         dispatch({ type: SUBMIT_RESET })
+        dispatch({ type: SELECTION_RESET })
+
     }, [])
 
     return (

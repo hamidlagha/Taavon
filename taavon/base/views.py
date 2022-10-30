@@ -39,8 +39,11 @@ def loginMember(request):
     if not member:
         return Response({'success': False, 'msg': 'کاربر موجود نیست'}, status=status.HTTP_400_BAD_REQUEST)
         
-
-    if member.voted:
+    try:
+        preVoted = member.votes_set.all().count()
+    except:
+        preVoted= False
+    if member.voted or preVoted:
         return Response({'success': False, 'msg': 'کاربر قبلا رای داده است'}, status=status.HTTP_400_BAD_REQUEST)
         
     smsSent = sendSMS(mobile)
