@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { Form, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { submitAction } from '../../actions/actions'
+import { LOGIN_RESET, CONFIRM_RESET, SUBMIT_RESET, SELECTION_RESET } from '../../constants/Constants'
 
 function SubmitScreen() {
     const navigate = useNavigate()
@@ -14,11 +15,12 @@ function SubmitScreen() {
     const userLoginInfo = useSelector(state => state.userLogin)
     const { id, mobile, name, family } = userLoginInfo
 
+    const [voted, setVoted] = useState(false)
     const userConfirmInfo = useSelector(state => state.userConfirm)
     const { candidas } = userConfirmInfo
 
     const userSubmitInfo = useSelector(state => state.userSubmit)
-    const { success } = userSubmitInfo
+    const { success, msg } = userSubmitInfo
 
     useEffect(() => {
         if (!selection || !id) {
@@ -26,6 +28,8 @@ function SubmitScreen() {
         }
         if (success) {
             navigate('/finish/')
+        } else if (success === false){
+            setVoted(true)
         }
     }, [success])
 
@@ -34,6 +38,13 @@ function SubmitScreen() {
             id,
             selection
         }))
+    }
+
+    const clearState = () => {
+        dispatch({ type: LOGIN_RESET })
+        dispatch({ type: CONFIRM_RESET })
+        dispatch({ type: SUBMIT_RESET })
+        dispatch({ type: SELECTION_RESET })
     }
     return (
         <div className="wrapper fadeInDown ">
@@ -57,21 +68,29 @@ function SubmitScreen() {
                     </div>
                 </div>
                 <div id="formFooter" className='d-flex justify-content-between'>
-                    <Button
+                    {!voted && <Button
                         className='btn btn-success'
                         onClick={submitHandler}
                     >
                         <i className='fas fa-arrow-right m-2'></i>
                         ثبت نهایی و خروج
-                    </Button>
+                    </Button>}
 
-                    <Button
+                    {!voted && <Button
                         className='btn btn-warning'
                         onClick={() => navigate('/candidas/')}
                     >
                         بازگشت و ویرایش آراء
                         <i className='fas fa-arrow-left m-2'></i>
-                    </Button>
+                    </Button>}
+                    {voted && <div className='error'>
+                        <Button
+                            className='btn btn-danger'
+                            onClick={clearState}
+                        >
+                            {msg} <i className='fas fa-exclamation-triangle m-3'></i>
+                        </Button>
+                    </div>}
                 </div>
             </div>
         </div>

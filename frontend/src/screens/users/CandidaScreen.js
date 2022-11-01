@@ -61,7 +61,7 @@ function CandidaScreen() {
     return (
         <div className='container'>
             <Row className='header-fix sticky-top'>
-                <Col sm={3} md={3} lg={3} xl={3} className='d-flex align-items-center myshadow'>
+                <Col sm={12} md={12} lg={3} xl={3} className='d-flex align-items-center myshadow'>
                     <SearchBox searchChange={onSearchChange} />
                     <h4>
                         <Badge bg='secondary m-3 myshadow'>
@@ -73,7 +73,7 @@ function CandidaScreen() {
                 </Col>
                 <Col>
                 </Col>
-                <Col sm={8} md={8} lg={8} xl={8} className='d-flex justify-content-sm-between align-items-center myshadow'>
+                <Col sm={12} md={12} lg={8} xl={8} className='d-flex justify-content-between align-items-center myshadow'>
                     <span>
                         {candidas && candidas.length && candidas.map(candida => {
                             return (
@@ -94,7 +94,7 @@ function CandidaScreen() {
                     <span>
                         {selection && selection.length ?
                             <Button
-                                className='btn btn-success'
+                                className='btn btn-success btn-save'
                                 disabled={!selection.length}
                                 onClick={() => navigate('/submit/')}
                             >

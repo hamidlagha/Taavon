@@ -47,7 +47,7 @@ function ConfirmScreen() {
                         <div id="formContent">
 
                             <div className="fadeIn first">
-                                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25' />
+                                <img src="/images/logo.png" id="icon" alt="User Icon" className='w-50' />
                             </div>
                             <div className='m-3'>
                                 همکار محترم
@@ -62,14 +62,14 @@ function ConfirmScreen() {
                                         required
                                         type="text"
                                         id="password"
-                                        className="fadeIn first w-25 num-space"
+                                        className="fadeIn first w-50 num-space"
                                         name="login"
                                         value={password || ''}
                                         onChange={(e) => setPassword(e.target.value.replace(/\D/g, ''))}
                                     />
                                 </Row>
                                 <Button
-                                    className='btn btn-primary btn-lg m-2'
+                                    className='btn btn-info m-2'
                                     onClick={submitHandler}
                                     disabled={password.length !== 6}
                                 >

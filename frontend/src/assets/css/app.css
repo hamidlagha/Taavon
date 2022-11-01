@@ -76,12 +76,14 @@
   
   .error {
     color: red;
-    font-weight: 900;
+    font-size: small;
     margin-right: 30px;
     margin-bottom: 10px;
   }
   
-  
+  .btn-save{
+    min-width: 70px;
+  }
   /* FORM TYPOGRAPHY*/
   
   input[type=button], input[type=submit], input[type=reset]  {

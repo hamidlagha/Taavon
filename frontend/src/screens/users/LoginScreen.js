@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Col, Form, Row, Button } from 'react-bootstrap'
+import { Col, Row, Button } from 'react-bootstrap'
 import { loginAction } from '../../actions/actions'
 import Loader from '../../components/Loader'
 
@@ -9,7 +9,7 @@ function LoginScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const userLoginInfo = useSelector(state => state.userLogin)
-  const { loading, success, error, id } = userLoginInfo
+  const { loading, success, error } = userLoginInfo
 
   const [prs, setPrs] = useState('');
   const [code, setCode] = useState('');
@@ -20,14 +20,12 @@ function LoginScreen() {
     dispatch(loginAction({
       prs,
       code,
-      mobile,
-      id
+      mobile
     }))
   }
 
   useEffect(() => {
     if (success) {
-      // dispatch({type: LOGIN_RESET})
       navigate(`/confirm/`)
     }
   }, [success])
@@ -44,7 +42,7 @@ function LoginScreen() {
                 <img src="/images/logo.png" id="icon" alt="User Icon" className='w-25' />
               </div>
 
-              <Form className='p-3'>
+              <div className='p-3'>
                 <Row className='m-1'>
                   <Col sm={3} md={3} lg={3}>
                     <span>
@@ -106,15 +104,15 @@ function LoginScreen() {
                   </Col>
                   <Col sm={9} md={9} lg={9} className='d-flex justify-content-center'>
                     <Button
-                      className='btn btn-primary btn-lg'
+                      className='btn btn-info'
                       onClick={submitHandler}
                       disabled={prs.length !== 8 || code.length !== 10 || mobile.length !== 11}
                     >
-                      ادامه <i class="fa fa-arrow-left"></i>
+                      ادامه <i className="fa fa-arrow-left"></i>
                     </Button>
                   </Col>
                 </Row>
-              </Form>
+              </div>
 
               <div id="formFooter d-flex">
                 {hasError ?

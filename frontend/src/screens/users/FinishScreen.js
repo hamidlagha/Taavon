@@ -28,7 +28,7 @@ function FinishScreen() {
                     <div className='h3'>از شرکت شما در  این انتخابات متشکریم</div>
                 </div>
                 <div id="formFooter">
-                    <div>اداره تعاون اداره کل آموزش و \رورش خراسان رضوی</div>
+                    <div>اداره تعاون اداره کل آموزش و پرورش خراسان رضوی</div>
                     <Button className='btn btn-primary m-5'
                         onClick={() => navigate('/')}
                     >

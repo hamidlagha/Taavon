@@ -10,11 +10,7 @@ function Candida({ id, name, family, desc, image, selector, selections }) {
                 <img className="card-img-top" src={image} />
                 <div className="card-block">
                     <h6 className="card-title mt-3 text-center">{name} {family}</h6>
-                    <div className="card-text">
-                        {desc}
-                    </div>
-                </div>
-                <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-center">
                     {!selected ?
                         <Button
                             className="btn btn-block btn-success"
@@ -30,9 +26,12 @@ function Candida({ id, name, family, desc, image, selector, selections }) {
                         >
                             <i className='fas fa-thumbs-down m-2'></i>
                             برگشت رای
-                            </Button> 
-                                        }
-                </div> 
+                            </Button>}
+                </div>                     
+                    <div className="card-text">
+                        {desc}
+                    </div>
+                </div>
             </div>
         </Col>
     )

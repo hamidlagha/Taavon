@@ -13,7 +13,6 @@ import {
     SUBMIT_REQUEST,
     SUBMIT_SUCCESS,
     SUBMIT_FAIL,
-    SUBMIT_RESET
 
  } from '../constants/Constants'
 
