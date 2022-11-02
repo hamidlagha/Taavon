@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-t-&_pghd+a0h2x7p77y5#j7dx#c6_f!bk98b)ecik*ck-mv@x=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,10 +43,12 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-   'DEFAULT_PARSER_CLASSES': (
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-     )
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
+    'DEFAULT_PREMISSION_CLASSES' : (
+        'rest_framework.permissions.AllowAny',
+    )
 }
 
 SIMPLE_JWT = {
@@ -92,7 +94,9 @@ ROOT_URLCONF = 'taavon.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/build'),
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,10 +115,21 @@ WSGI_APPLICATION = 'taavon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'taavon',
+        'USER': 'postgres',
+        'PASSWORD': 'P@s$w0rd123!@#',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
 
@@ -165,7 +180,7 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-
+CORS_ALLOW_ALL_ORIGINS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

@@ -5,15 +5,17 @@ from .validations import validateCode, validatePrs, validateMobile, selectionVal
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework.permissions import AllowAny
 # Create your views here.
 
 zones = [1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1614,1615,1616]
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def loginMember(request):
+    print('----------------------------')
     data = request.data
-
+    print(data)
     if not 'code' in data or not 'prs' in data or not 'mobile' in data:
         return Response({'success': False , 'msg': 'شماره ملی یا شماره پرسنلی ایراد دارد'})
     
@@ -55,6 +57,7 @@ def loginMember(request):
 
 @api_view(['POST'])
 def voteMember(request):
+    # return Response({'success' : True, 'msg': 'infunction'}, status=status.HTTP_200_OK)
     data = request.data
 
     if not 'id' in data or not 'selection[]' in data:
@@ -75,7 +78,7 @@ def voteMember(request):
     
     selectionCount = len(selectionList)
     if selectionCount == 0 or selectionCount > 4:
-        return Response({'success': False, 'msg': 'تعداد آرا ایراد دارد'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'success': False, 'msg': f'{selectionCount}تعداد آرا ایراد دارد'}, status=status.HTTP_400_BAD_REQUEST)
     
     if not selectionValidate(selectionList, member.zone):
         return Response({'success': False, 'msg': 'کاندیدا وجود ندارد'}, status=status.HTTP_400_BAD_REQUEST)
