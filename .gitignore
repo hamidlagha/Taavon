@@ -5,4 +5,4 @@ logs/
 .env
 *.backup
 db/
-backend/frontend/node_modules/
+taavon/frontend/node_modules/

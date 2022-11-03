@@ -88,7 +88,7 @@ function SubmitScreen() {
                             className='btn btn-danger'
                             onClick={clearState}
                         >
-                            {msg} {error}<i className='fas fa-exclamation-triangle m-3'></i>
+                            {msg}<i className='fas fa-exclamation-triangle m-3'></i>
                         </Button>
                     </div>}
                 </div>

@@ -44,7 +44,7 @@ class Candidas(models.Model):
             url = ''
         return url
     class Meta:
-        ordering = ['-vote_total', 'name', 'family']
+        ordering = ['-vote_total', 'family', 'name']
         
 class Votes(models.Model):
     member = models.ForeignKey(Members,on_delete=models.CASCADE, null=False, blank=False)

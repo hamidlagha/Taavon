@@ -13,9 +13,7 @@ zones = [1600,1601,1602,1603,1604,1605,1606,1607,1608,1609,1610,1611,1612,1613,1
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def loginMember(request):
-    print('----------------------------')
     data = request.data
-    print(data)
     if not 'code' in data or not 'prs' in data or not 'mobile' in data:
         return Response({'success': False , 'msg': 'شماره ملی یا شماره پرسنلی ایراد دارد'})
     
@@ -54,6 +52,34 @@ def loginMember(request):
     else:
         return Response({'success': False, 'msg': 'ارسال پیامک با خطا مواجه شد'}, status=status.HTTP_400_BAD_REQUEST)
 
+def sendSMS(mobile):
+    try:
+        password = round(random() * 1000000)
+        SMS.objects.create(mobile=mobile, password=password)
+        return True
+    except:
+        return False
+    
+@api_view(['POST'])
+def confirmSMS(request):
+    data = request.data
+    if  'mobile' not in data or 'password' not in data or 'id' not in data:
+        return Response({'success': False, 'msg': 'فرمت داده ها ایراد دارد'}, status=status.HTTP_404_NOT_FOUND)
+    
+    mobile = data['mobile']
+    password = data['password']
+    id = data['id']
+
+    try:
+        exists = SMS.objects.filter(password=password, mobile=mobile).count()
+        member = Members.objects.get(id=id)
+        if exists and member:
+            serializerCandid= CandidaSerializer(Candidas.objects.filter(zone=member.zone), many=True)
+            return Response({'success': True, 'candidas': serializerCandid.data, 'msg': 'ورود تایید شد' }, status=status.HTTP_200_OK)
+        else:
+            return Response({'success': False, 'msg': 'کد وارد شده اشتباه است'}, status=status.HTTP_404_NOT_FOUND)            
+    except:
+        return Response({'success': False, 'msg': 'کد وارد شده اشتباه است'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['POST'])
 def voteMember(request):
@@ -109,13 +135,20 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+def updateVotes():
+    for candida in Candidas.objects.all():
+        candida.getVoteCount
 
 def calculateZoneVote(zone):
         zoneDic = {}
         zoneCandids = Candidas.objects.filter(zone=zone)
         zoneDic.update({'zoneID': zone})
         zoneDic.update({'candidaCount': zoneCandids.count()})
-        zoneDic.update({'memberCount': Votes.objects.filter(zone=zone).values('member').distinct().count()})
+        updateVotes()
+        serializerCandidas= CandidaSerializer(Candidas.objects.filter(zone=zone), many=True)
+        zoneDic.update({'candidas': serializerCandidas.data})
+        zoneDic.update({'memberCount': Members.objects.filter(zone=zone).distinct().count()})
+        zoneDic.update({'voterCount': Votes.objects.values('member').distinct().count()})
         zoneDic.update({'voteCount': Votes.objects.filter(zone=zone).count()})
         candidaVote = {}
         for candid in zoneCandids:
@@ -124,13 +157,16 @@ def calculateZoneVote(zone):
         zoneDic.update({'votes': candidaVote})
         return zoneDic
 
+def getCandadList(zone):
+    return True
+
 @api_view(['GET'])
 def reportVotesAllZones(request):
-    context = {}
+    array = []
     for zone in zones:
         zoneDic = calculateZoneVote(zone)
-        context.update({zone: zoneDic})
-    return Response(context)
+        array.append(zoneDic)
+    return Response({'data' : array})
 
 @api_view(['GET'])
 def reportVotesZone(request, zone):
@@ -139,46 +175,19 @@ def reportVotesZone(request, zone):
 
 def calculateCandidaVotes(candida):
     try:
-        candida = Candidas.objects.get(prs=candida)
-    except:
-        return Response({'success': False, 'msg': 'چنین کاندیدایی یافت نشد'})
+        candida = Candidas.objects.get(id=candida)
+        if candida:
+            serializer = CandidaVotesSerializer(candida, many=False)
+            report = serializer.data
+            return (report)
+        else:
+            return Response({'success': False, 'msg': '0چنین کاندیدایی یافت نشد'})
     
-    serializer = CandidaVotesSerializer(candida, many=False)
-    return(serializer.data)
-
+    except:
+        return ({'success': False, 'msg': '1چنین کاندیدایی یافت نشد'})
+        
+    
 
 @api_view(['GET'])
 def reportVotesCandida(request, candida):
     return Response(calculateCandidaVotes(candida))
-
-def sendSMS(mobile):
-    try:
-        password = round(random() * 1000000)
-        print(password)
-        SMS.objects.create(mobile=mobile, password=password)
-        return True
-    except:
-        return False
-    
-@api_view(['POST'])
-def confirmSMS(request):
-    data = request.data
-    print(data)
-    if  'mobile' not in data or 'password' not in data or 'id' not in data:
-        return Response({'success': False, 'msg': 'فرمت داده ها ایراد دارد'}, status=status.HTTP_404_NOT_FOUND)
-    
-    mobile = data['mobile']
-    password = data['password']
-    id = data['id']
-
-    try:
-        exists = SMS.objects.filter(password=password, mobile=mobile).count()
-        member = Members.objects.get(id=id)
-        if exists and member:
-            # serializerMember= MemberSerializer(member, many=False)
-            serializerCandid= CandidaSerializer(Candidas.objects.filter(zone=member.zone), many=True)
-            return Response({'success': True, 'candidas': serializerCandid.data, 'msg': 'ورود تایید شد' }, status=status.HTTP_200_OK)
-        else:
-            return Response({'success': False, 'msg': 'کد وارد شده اشتباه است'}, status=status.HTTP_404_NOT_FOUND)            
-    except:
-        return Response({'success': False, 'msg': 'کد وارد شده اشتباه است'}, status=status.HTTP_404_NOT_FOUND)

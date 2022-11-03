@@ -18,6 +18,18 @@ import {
     SUBMIT_FAIL,
     SUBMIT_RESET,
 
+    REPORT_ALL_ZONE_REQUEST,
+    REPORT_ALL_ZONE_SUCCESS,
+    REPORT_ALL_ZONE_FAIL,
+
+    REPORT_ONE_ZONE_REQUEST,
+    REPORT_ONE_ZONE_SUCCESS,
+    REPORT_ONE_ZONE_FAIL,
+
+    REPORT_ONE_CANDIDA_REQUEST,
+    REPORT_ONE_CANDIDA_SUCCESS,
+    REPORT_ONE_CANDIDA_FAIL,
+
 } from '../constants/Constants'
 
 export const userLoginReducer = (state = {}, action) => {
@@ -90,7 +102,6 @@ export const selectionReducer = (state = {selection: []}, action) => {
     }
 }
 
-
 export const submitReducer = (state = {}, action) => {
     switch (action.type) {
         case SUBMIT_REQUEST:
@@ -111,5 +122,62 @@ export const submitReducer = (state = {}, action) => {
         
         default:
             return state
+    }
+}
+
+export const reportAllZonesReducer = (state = {}, action ) => {
+    
+    switch (action.type) {
+        case REPORT_ALL_ZONE_REQUEST:
+            return {loading: true}
+        
+        case REPORT_ALL_ZONE_SUCCESS:
+            return {
+                    loading: false, 
+                    zones: action.payload.data, 
+                    success: true
+            }
+        
+        case REPORT_ALL_ZONE_FAIL:
+            return {
+                loading: false,
+                success: false,
+                error: action.payload
+            }
+        
+        default:
+            return state;
+
+    }
+}
+
+export const reportCandidaReducer = (state = {}, action ) => {
+    
+    switch (action.type) {
+        case REPORT_ONE_CANDIDA_REQUEST:
+            return {loading: true}
+        
+        case REPORT_ONE_CANDIDA_SUCCESS:
+            return {
+                    loading: false,
+                    name: action.payload.name,
+                    family: action.payload.family,
+                    code: action.payload.code,
+                    prs: action.payload.prs,
+                    zone: action.payload.zone,
+                    votes: action.payload.votes,
+                    success: true
+            }
+        
+        case REPORT_ONE_CANDIDA_FAIL:
+            return {
+                loading: false,
+                success: false,
+                error: action.payload
+            }
+        
+        default:
+            return state;
+
     }
 }
