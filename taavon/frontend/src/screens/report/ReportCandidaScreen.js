@@ -96,7 +96,7 @@ function ReportCandidaScreen() {
                                                 {votes && votes.length ?
                                                     votes.map((vote, i) => {
                                                         return (
-                                                            <tr>
+                                                            <tr key={i}>
                                                                 <td>{i + 1}</td>
                                                                 <td>{vote.prs}</td>
                                                                 <td>{vote.zone}</td>

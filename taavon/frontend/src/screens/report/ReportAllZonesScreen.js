@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Loader from '../../components/Loader'
 import { Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 function ReportAllZonesScreen() {
     const dispatch = useDispatch();
@@ -11,10 +12,11 @@ function ReportAllZonesScreen() {
     const { loading, success, error, zones } = useSelector(state => state.reportAllZones)
 
     useEffect(() => {
-        if(!zones) {
-            dispatch(reportAllZonesAction())
+        if (!zones) {
+            dispatch(reportAllZonesAction());
         }
     }, [])
+
     return (
         <div>
             {loading ?
@@ -26,9 +28,9 @@ function ReportAllZonesScreen() {
                             {zones && zones.length ?
                                 <div className='container'>
                                     <h1>گزارش کلی نتایج آرا مناطق و نواحی</h1>
-                                    {zones.map(zone => {
+                                    {zones.map((zone, i) => {
                                         return (
-                                            <div className='my-5'>
+                                            <div className='my-5' key={i}>
                                                 <Table striped bordered hover variant="dark">
                                                     <thead>
                                                         <tr>
@@ -50,10 +52,20 @@ function ReportAllZonesScreen() {
                                                     </tbody>
                                                 </Table>
 
-                                                <Table striped bordered hover size="sm">
+                                                <ReactHTMLTableToExcel
+                                                    id={`${zone.zoneID}btn`}
+                                                    className="btn btn-success"
+                                                    table={zone.zoneID}
+                                                    filename={zone.zoneID}
+                                                    sheet={zone.zoneid}
+                                                    buttonText={`Excel ${zone.zoneID}`}
+                                                />
+
+                                                <Table striped bordered hover size="sm" id={zone.zoneID}>
                                                     <thead>
                                                         <tr>
                                                             <th>#</th>
+                                                            <th>کد منطقه</th>
                                                             <th>کد پرسنلی</th>
                                                             <th>نام </th>
                                                             <th>نام خانوادگی</th>
@@ -65,8 +77,9 @@ function ReportAllZonesScreen() {
                                                         {zone && zone.candidas.length ?
                                                             zone.candidas.map((candid, i) => {
                                                                 return (
-                                                                    <tr>
+                                                                    <tr key={i}>
                                                                         <td>{i + 1}</td>
+                                                                        <td>{zone.zoneID}</td>
                                                                         <td>
                                                                             <Link to={`/report/candida/${candid.id}`} >
                                                                                 {candid.prs}
@@ -80,7 +93,11 @@ function ReportAllZonesScreen() {
                                                                 )
                                                             })
 
-                                                            : <tr>اشکال در تعداد کاندیداها</tr>}
+                                                            : <tr>
+                                                                <td>
+                                                                    اشکال در تعداد کاندیداها
+                                                                </td>
+                                                            </tr>}
 
                                                     </tbody>
                                                 </Table>
